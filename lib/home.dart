@@ -100,21 +100,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState());
-
   void increment() {
     emit(state.copyWith(number: state.number + 1));
   }
 
   void decrement() {
     if (state.number <= 2) return;
+    final isLogic = _isLogic(state.number - 1, state.attempts, state.rightNumbersLength);
+    if (!isLogic) {
+      attemptsDecrement();
+      rightNumbersLengthDecrement();
+    }
     emit(state.copyWith(
       number: state.number - 1,
-      rightNumbersLength: state.rightNumbersLength + 2 > state.number ? state.number - 2 : null,
     ));
   }
 
   void attemptsIncrement() {
-    if (state.attempts >= state.number - state.attempts) return;
+    if (!_isLogic(state.number, state.attempts + 1, state.rightNumbersLength)) return;
     emit(state.copyWith(attempts: state.attempts + 1));
   }
 
@@ -124,7 +127,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void rightNumbersLengthIncrement() {
-    if (state.rightNumbersLength == state.number - 1) return;
+    if (!_isLogic(state.number, state.attempts, state.rightNumbersLength + 1)) return;
     emit(state.copyWith(rightNumbersLength: state.rightNumbersLength + 1));
   }
 
@@ -132,13 +135,15 @@ class HomeCubit extends Cubit<HomeState> {
     if (state.rightNumbersLength <= 1) return;
     emit(state.copyWith(rightNumbersLength: state.rightNumbersLength - 1));
   }
+
+  bool _isLogic(int number, int attempts, int rightNumbersLength) => number > attempts + rightNumbersLength;
 }
 
 class HomeState {
   HomeState({
-    this.number = 9,
-    this.attempts = 4,
-    this.rightNumbersLength = 5,
+    this.number = 2,
+    this.attempts = 1,
+    this.rightNumbersLength = 1,
   });
 
   final int number;
