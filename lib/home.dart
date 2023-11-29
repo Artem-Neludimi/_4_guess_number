@@ -1,4 +1,5 @@
 import 'package:_4_guess_number/generated.dart';
+import 'package:_4_guess_number/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +21,32 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('Generate number'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => Dialog(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(children: [
+                          const Text('Wins'),
+                          const Spacer(),
+                          Text((prefs.getInt('winCount') ?? 0).toString()),
+                        ]),
+                        const SizedBox(height: 32),
+                        Row(children: [
+                          const Text('Losses'),
+                          const Spacer(),
+                          Text((prefs.getInt('loseCount') ?? 0).toString()),
+                        ]),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
             icon: const Icon(Icons.bar_chart),
           ),
         ],
@@ -141,7 +167,7 @@ class HomeCubit extends Cubit<HomeState> {
 
 class HomeState {
   HomeState({
-    this.number = 2,
+    this.number = 9,
     this.attempts = 1,
     this.rightNumbersLength = 1,
   });

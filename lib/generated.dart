@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:_4_guess_number/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -212,10 +213,12 @@ class GeneratedCubit extends Cubit<GeneratedState> {
     final rightNumbersGuessLeft = isRight ? state.rightNumbersGuessLeft - 1 : state.rightNumbersGuessLeft;
     if (rightNumbersGuessLeft == 0) {
       emit(state.copyWith(isWin: true, attemptsLeft: attemptsLeft));
+      prefs.setInt('winCount', (prefs.getInt('winCount') ?? 0) + 1);
       return;
     }
     if (attemptsLeft == 0) {
       emit(state.copyWith(isLose: true, attemptsLeft: attemptsLeft));
+      prefs.setInt('loseCount', (prefs.getInt('loseCount') ?? 0) + 1);
       return;
     }
     emit(state.copyWith(
