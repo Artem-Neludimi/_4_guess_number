@@ -29,18 +29,42 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              onPressed: () {
-                context.read<HomeCubit>().increment();
-              },
-              icon: const Icon(Icons.arrow_upward),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    context.read<HomeCubit>().decrement();
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
+                Text('Length: ${state.number}'),
+                IconButton(
+                  onPressed: () {
+                    context.read<HomeCubit>().increment();
+                  },
+                  icon: const Icon(Icons.arrow_forward),
+                ),
+              ],
             ),
-            Text('Generate this many numbers: ${state.number}'),
-            IconButton(
-              onPressed: () {
-                context.read<HomeCubit>().decrement();
-              },
-              icon: const Icon(Icons.arrow_downward),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    context.read<HomeCubit>().attemptsDecrement();
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
+                Text('Attempts: ${state.attempts}'),
+                IconButton(
+                  onPressed: () {
+                    context.read<HomeCubit>().attemptsIncrement();
+                  },
+                  icon: const Icon(Icons.arrow_forward),
+                ),
+              ],
             ),
           ],
         ),
@@ -66,20 +90,33 @@ class HomeCubit extends Cubit<HomeState> {
     if (state.number <= 9) return;
     emit(state.copyWith(number: state.number - 1));
   }
+
+  void attemptsIncrement() {
+    emit(state.copyWith(attempts: state.attempts + 1));
+  }
+
+  void attemptsDecrement() {
+    if (state.attempts <= 1) return;
+    emit(state.copyWith(attempts: state.attempts - 1));
+  }
 }
 
 class HomeState {
   HomeState({
     this.number = 9,
+    this.attempts = 1,
   });
 
   final int number;
+  final int attempts;
 
   HomeState copyWith({
     int? number,
+    int? attempts,
   }) {
     return HomeState(
       number: number ?? this.number,
+      attempts: attempts ?? this.attempts,
     );
   }
 }

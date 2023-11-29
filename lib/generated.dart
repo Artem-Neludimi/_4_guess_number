@@ -24,9 +24,12 @@ class GeneratedPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const Row(
+            Row(
               children: [
-                Padding(padding: EdgeInsets.all(16), child: Text('Attempts left:')),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text('Attempts left: ${state.attempts}'),
+                ),
               ],
             ),
             Expanded(
@@ -38,22 +41,38 @@ class GeneratedPage extends StatelessWidget {
                   mainAxisSpacing: 8,
                 ),
                 itemBuilder: (context, index) {
-                  return Container(
-                    color: Colors.blue,
-                    child: Center(
-                      child: Text(
-                        '${index + 1}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                  );
+                  return _Item(index);
                 },
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Item extends StatefulWidget {
+  const _Item(this.index);
+
+  final int index;
+
+  @override
+  State<_Item> createState() => _ItemState();
+}
+
+class _ItemState extends State<_Item> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue,
+      child: Center(
+        child: Text(
+          '${widget.index + 1}',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+          ),
         ),
       ),
     );
