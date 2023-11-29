@@ -66,6 +66,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    context.read<HomeCubit>().rightNumbersLengthDecrement();
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
+                Text('Right answers: ${state.rightNumbersLength}'),
+                IconButton(
+                  onPressed: () {
+                    context.read<HomeCubit>().rightNumbersLengthIncrement();
+                  },
+                  icon: const Icon(Icons.arrow_forward),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -87,8 +106,11 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void decrement() {
-    if (state.number <= 9) return;
-    emit(state.copyWith(number: state.number - 1));
+    if (state.number <= 2) return;
+    emit(state.copyWith(
+      number: state.number - 1,
+      rightNumbersLength: state.rightNumbersLength + 2 > state.number ? state.number - 2 : null,
+    ));
   }
 
   void attemptsIncrement() {
@@ -99,24 +121,54 @@ class HomeCubit extends Cubit<HomeState> {
     if (state.attempts <= 1) return;
     emit(state.copyWith(attempts: state.attempts - 1));
   }
+
+  void rightNumbersLengthIncrement() {
+    if (state.rightNumbersLength == state.number - 1) return;
+    emit(state.copyWith(rightNumbersLength: state.rightNumbersLength + 1));
+  }
+
+  void rightNumbersLengthDecrement() {
+    if (state.rightNumbersLength <= 1) return;
+    emit(state.copyWith(rightNumbersLength: state.rightNumbersLength - 1));
+  }
+
+  void generate() {
+    emit(state.copyWith(attemptsLeft: state.attempts));
+  }
+
+  void makeGuess() {
+    emit(state.copyWith(attemptsLeft: state.attemptsLeft! - 1));
+  }
 }
 
 class HomeState {
   HomeState({
     this.number = 9,
-    this.attempts = 1,
+    this.attempts = 3,
+    this.rightNumbersLength = 3,
+    this.attemptsLeft,
+    this.rightNumbers = const [],
   });
 
   final int number;
   final int attempts;
+  final int rightNumbersLength;
+  final int? attemptsLeft;
+  final List<int> rightNumbers;
 
   HomeState copyWith({
     int? number,
     int? attempts,
+    int? rightNumbersLength,
+    int? attemptsLeft,
+    List<int>? rightNumbers,
   }) {
     return HomeState(
       number: number ?? this.number,
       attempts: attempts ?? this.attempts,
+      rightNumbersLength: rightNumbersLength ?? this.rightNumbersLength,
+      attemptsLeft: attemptsLeft ?? this.attemptsLeft,
+      rightNumbers: rightNumbers ?? this.rightNumbers,
     );
   }
 }
