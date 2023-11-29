@@ -51,68 +51,66 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    context.read<HomeCubit>().decrement();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                Text('Length: ${state.number}'),
-                IconButton(
-                  onPressed: () {
-                    context.read<HomeCubit>().increment();
-                  },
-                  icon: const Icon(Icons.arrow_forward),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    context.read<HomeCubit>().attemptsDecrement();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                Text('Attempts: ${state.attempts}'),
-                IconButton(
-                  onPressed: () {
-                    context.read<HomeCubit>().attemptsIncrement();
-                  },
-                  icon: const Icon(Icons.arrow_forward),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    context.read<HomeCubit>().rightNumbersLengthDecrement();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                Text('Right answers: ${state.rightNumbersLength}'),
-                IconButton(
-                  onPressed: () {
-                    context.read<HomeCubit>().rightNumbersLengthIncrement();
-                  },
-                  icon: const Icon(Icons.arrow_forward),
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  context.read<HomeCubit>().decrement();
+                },
+                icon: const Icon(Icons.arrow_back, size: 40),
+              ),
+              Text('Length: ${state.number}', style: Theme.of(context).textTheme.displaySmall),
+              IconButton(
+                onPressed: () {
+                  context.read<HomeCubit>().increment();
+                },
+                icon: const Icon(Icons.arrow_forward, size: 40),
+              ),
+            ],
+          ),
+          const SizedBox(height: 64),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  context.read<HomeCubit>().attemptsDecrement();
+                },
+                icon: const Icon(Icons.arrow_back, size: 40),
+              ),
+              Text('Attempts: ${state.attempts}', style: Theme.of(context).textTheme.displaySmall),
+              IconButton(
+                onPressed: () {
+                  context.read<HomeCubit>().attemptsIncrement();
+                },
+                icon: const Icon(Icons.arrow_forward, size: 40),
+              ),
+            ],
+          ),
+          const SizedBox(height: 64),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  context.read<HomeCubit>().rightNumbersLengthDecrement();
+                },
+                icon: const Icon(Icons.arrow_back, size: 40),
+              ),
+              Text('Right answers: ${state.rightNumbersLength}', style: Theme.of(context).textTheme.displaySmall),
+              IconButton(
+                onPressed: () {
+                  context.read<HomeCubit>().rightNumbersLengthIncrement();
+                },
+                icon: const Icon(Icons.arrow_forward, size: 40),
+              ),
+            ],
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).push(MaterialPageRoute(
